@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,10 @@ Route::middleware(['auth'])
 
         // RUTA DE ROLES
         Route::resource('roles', RoleController::class);
+        //RUTA DE USUARIOS 
+        Route::resource('users', UserController::class);
+
+
 
 });
 
