@@ -1,28 +1,96 @@
+@props([
+    'title' => config ('app.name','Laravel'), //Titulo por defecto
+    'breadcrumbs' => [], //Arreglo vacio por defecto 
+        ])
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Olan Barber</title>
+        <title>{{ $title }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    @livewireStyles
-</head>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-<body class="bg-gray-100">
+        {{-- Font Awesome CSS --}}
+        <script src="https://kit.fontawesome.com/bf2462bedb.js" crossorigin="anonymous"></script>
 
-    <div class="flex min-h-screen">
-        @include('layouts.includes.admin.sidebar')
-        <div class="flex-1 sm:ml-64">
-            @include('layouts.includes.admin.navigation')
-            <main class="p-6 mt-16">
-                @include('layouts.includes.admin.breadcrumb')
-                @yield('content')
-            </main>
+        {{-- SweetAlert2 --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        {{-- WireUI --}}
+        <wireui:scripts />
+        
+        <!-- Styles -->
+        @livewireStyles
+    </head>
+    <body class="font-sans antialiased bg-gray-50">
+
+
+        @include ('layouts.includes.admin.navigation')
+        @include ('layouts.includes.admin.sidebar')
+
+
+        <div class="p-4 sm:ml-64 mt-14">
+            <div class="mb-6 flex items-start justify-between">
+                <div>
+                    @include('layouts.includes.admin.breadcrumb')
+                </div>
+                @isset($action)
+                    <div class="flex-shrink-0">
+                        {{$action}}
+                    </div>
+                @endisset
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                {{$slot}}
+            </div>
         </div>
-    </div>
-    @livewireScripts
-</body>
+
+        @stack('modals')
+        {{-- Mostrar sweetAlert cuando fucniones y si lo muestra --}}
+        @if (@session('swal'))
+            <script>
+                Swal.fire(@json(session('swal')));
+            </script> 
+        @endif
+
+        @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
+
+        {{-- Confirmar eliminación --}}
+        <script>
+         //Busca todos los elementos de una clase  
+        forms = document.querySelectorAll('.delete-form');
+        forms.forEach(form => {
+            // Revisa cualquier acción de envío
+            form.addEventListener('submit', function(e) {
+                // Previene el envio del formulario
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir eso',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar" 
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        form.submit();
+                    }
+                });
+            });
+        });
+        </script>
+    </body>
 </html>

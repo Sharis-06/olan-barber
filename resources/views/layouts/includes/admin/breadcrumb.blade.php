@@ -1,34 +1,28 @@
 {{-- Verificar si hay un elemento en el arreglo breadcrumbs --}}
 @if(isset($breadcrumbs) && count($breadcrumbs))
-    {{--Display:block indica que todos los leementos que estan vayan en otros bloques   --}}
-    <nav class="mb-2 block">
-        <ol class="flex flex-wrap text-slate-700 text-sm">
+    <nav class="mb-4 block">
+        <ol class="flex flex-wrap text-gray-500 text-sm mb-1">
             @foreach ($breadcrumbs as $item)
                 <li class="flex items-center">
-                    {{-- SI NO ES EL PRIMER ELEMNTO PINTA EL SEPARADOR CON ESPACIO --}}
                     @unless ($loop->first)
-                    {{-- El span crea el separador con margen lateral  --}}
-                        <span class="px-2 text-gray-400">
-                            /
-                        </span>
+                        <span class="px-2 text-gray-300">/</span>
                     @endunless
-                    {{-- Revisa si existe una llave llamada 'header' --}}
+                    
                     @isset($item['href'])
-                        {{-- Si existe, se muestra como enlace con opacidad reducida --}}
-                        <a href="{{$item['href']}}" class="opacity-60 hover:opacity-100 transition">
+                        <a href="{{$item['href']}}" class="hover:text-gray-700 transition-colors">
                             {{ $item['name'] }}
                         </a> 
                     @else
-                        {{$item['name']}}
+                        <span class="text-gray-400">{{$item['name']}}</span>
                     @endisset
                 </li>
             @endforeach
         </ol>
-            {{-- El último elemento aprezca resaltado --}}
-            @if (count($breadcrumbs)>1)
-                <h6 class="font-bold mt-2">
-                    {{end($breadcrumbs)['name']}}
-                </h6>
-            @endif
+        
+        @if (count($breadcrumbs) > 0)
+            <h1 class="text-2xl font-bold text-gray-900">
+                {{ end($breadcrumbs)['name'] }}
+            </h1>
+        @endif
     </nav>
 @endif

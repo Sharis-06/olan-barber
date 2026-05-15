@@ -40,8 +40,8 @@ $links = [
     [
         'name' => 'Roles',
         'icon' => 'fa-solid fa-shield-halved',
-        'href' => '#',
-        'active' => false
+        'href' => route('admin.roles.index'),
+        'active' => request()->routeIs('admin.roles.*'),
     ],
 
     [
