@@ -13,17 +13,17 @@ $links = [
     ],
 
     [
-        'name' => 'Clientes',
-        'icon' => 'fa-solid fa-users',
-        'href' => '#',
-        'active' => request()->routeIs('clients.*')
+        'name' => 'Servicios',
+        'icon' => 'fa-solid fa-scissors',
+        'href' => route('admin.service.index'),
+        'active' => request()->routeIs('admin.service.*')
     ],
 
     [
-        'name' => 'Servicios',
-        'icon' => 'fa-solid fa-scissors',
+        'name' => 'Barberos',
+        'icon' => 'fa-solid fa-users',
         'href' => '#',
-        'active' => request()->routeIs('services.*')
+        'active' => request()->routeIs('admin.barberos.*')
     ],
 
     [

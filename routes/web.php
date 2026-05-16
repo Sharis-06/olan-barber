@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +38,8 @@ Route::middleware(['auth'])
         Route::resource('roles', RoleController::class);
         //RUTA DE USUARIOS 
         Route::resource('users', UserController::class);
+        // RUTA DE SERVCIOS 
+        Route::resource('service', ServiceController::class);
 
 
 
