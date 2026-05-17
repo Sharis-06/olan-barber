@@ -17,4 +17,10 @@ class Service extends Model
         'duracion_minutos',
         'descripcion',
     ];
+
+    // RELACIÓN CON CITAS
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

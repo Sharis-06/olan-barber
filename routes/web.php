@@ -1,8 +1,10 @@
 <?php
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\ClientBooking;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,10 +12,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    $appointments = collect();
+    if ($user && $user->hasRole('Cliente')) {
+        $appointments = $user->appointments()->with(['barber', 'service'])->latest()->get();
+    }
+    return view('dashboard', compact('appointments'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/booking', ClientBooking::class)->name('client.booking');
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
@@ -40,6 +48,8 @@ Route::middleware(['auth'])
         Route::resource('users', UserController::class);
         // RUTA DE SERVCIOS 
         Route::resource('service', ServiceController::class);
+        // RUTA DE CITAS
+        Route::resource('appointments', AppointmentController::class);
 
 
 

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+// IMPORTANTE
+use App\Models\Appointment;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -48,5 +51,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relación con citas (appointments)
+    // CITAS COMO CLIENTE
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    // CITAS COMO BARBERO
+    public function barberAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'barber_id');
     }
 }

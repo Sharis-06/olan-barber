@@ -1,58 +1,80 @@
 @php
-$links = [
+$user = auth()->user();
+$links = [];
 
-    [
-        'name' => 'Dashboard',
-        'icon' => 'fa-solid fa-gauge',
-        'href' => route('dashboard'),
-        'active' => request()->routeIs('dashboard')
-    ],
+if ($user && $user->hasRole('Cliente')) {
+    $links = [
+        [
+            'name' => 'Mi Dashboard',
+            'icon' => 'fa-solid fa-gauge',
+            'href' => route('dashboard'),
+            'active' => request()->routeIs('dashboard')
+        ],
 
-    [
-        'header' => 'Gestión'
-    ],
+        [
+            'header' => 'Servicios'
+        ],
 
-    [
-        'name' => 'Servicios',
-        'icon' => 'fa-solid fa-scissors',
-        'href' => route('admin.service.index'),
-        'active' => request()->routeIs('admin.service.*')
-    ],
+        [
+            'name' => 'Reservar Cita',
+            'icon' => 'fa-solid fa-calendar-plus',
+            'href' => route('client.booking'),
+            'active' => request()->routeIs('client.booking')
+        ],
+    ];
+} else {
+    $links = [
+        [
+            'name' => 'Dashboard',
+            'icon' => 'fa-solid fa-gauge',
+            'href' => route('dashboard'),
+            'active' => request()->routeIs('dashboard')
+        ],
 
-    [
-        'name' => 'Barberos',
-        'icon' => 'fa-solid fa-users',
-        'href' => '#',
-        'active' => request()->routeIs('admin.barberos.*')
-    ],
+        [
+            'header' => 'Gestión'
+        ],
 
-    [
-        'name' => 'Citas',
-        'icon' => 'fa-solid fa-calendar-check',
-        'href' => '#',
-        'active' => request()->routeIs('appointments.*')
-    ],
+        [
+            'name' => 'Servicios',
+            'icon' => 'fa-solid fa-scissors',
+            'href' => route('admin.service.index'),
+            'active' => request()->routeIs('admin.service.*')
+        ],
 
-    [
-        'header' => 'Administración'
-    ],
+        [
+            'name' => 'Barberos',
+            'icon' => 'fa-solid fa-users',
+            'href' => '#',
+            'active' => request()->routeIs('admin.barberos.*')
+        ],
 
-    [
-        'name' => 'Roles',
-        'icon' => 'fa-solid fa-shield-halved',
-        'href' => route('admin.roles.index'),
-        'active' => request()->routeIs('admin.roles.*'),
-    ],
+        [
+            'name' => 'Citas',
+            'icon' => 'fa-solid fa-calendar-check',
+            'href' => route('admin.appointments.index'),
+            'active' => request()->routeIs('admin.appointments.*')
+        ],
 
-    [
-        'name' => 'Usuarios',
-        'icon' => 'fa-solid fa-user',
-        'href' => route('admin.users.index'),
-        'active' => request()->routeIs('admin.users.*'),
-    ],
+        [
+            'header' => 'Administración'
+        ],
 
-];
+        [
+            'name' => 'Roles',
+            'icon' => 'fa-solid fa-shield-halved',
+            'href' => route('admin.roles.index'),
+            'active' => request()->routeIs('admin.roles.*'),
+        ],
 
+        [
+            'name' => 'Usuarios',
+            'icon' => 'fa-solid fa-user',
+            'href' => route('admin.users.index'),
+            'active' => request()->routeIs('admin.users.*'),
+        ],
+    ];
+}
 @endphp
 
 <aside class="fixed top-0 left-0 z-40 w-64 h-screen">

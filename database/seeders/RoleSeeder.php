@@ -13,7 +13,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        //Definir roles 
+        // Definir roles
         $roles = [
             'Cliente',
             'Barbero',
@@ -24,10 +24,11 @@ class RoleSeeder extends Seeder
 
         // Crear roles en la base de datos
         foreach ($roles as $role) {
-            Role::create([
+
+            Role::firstOrCreate([
                 'name' => $role
             ]);
-            }
+
+        }
     }
 }
-
