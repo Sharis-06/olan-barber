@@ -1,4 +1,229 @@
+/* Import Google Fonts & Icons first */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+@layer base {
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #0b0b0c;
+        color: #f4f4f6;
+    }
+
+    input, select, textarea {
+        font-family: 'Outfit', sans-serif;
+    }
+}
+
+/* Custom Barbershop Styles */
+.barber-gold-gradient {
+    background: linear-gradient(135deg, #c5a880 0%, #a2835b 100%);
+}
+
+.barber-gold-hover:hover {
+    background: linear-gradient(135deg, #d4b790 0%, #b2936a 100%);
+}
+
+/* SweetAlert Dark Theme Overrides */
+.swal2-popup {
+    background-color: #121215 !important;
+    color: #f4f4f6 !important;
+    border: 1px solid #222227 !important;
+    border-radius: 1.5rem !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+.swal2-title {
+    color: #c5a880 !important;
+    font-weight: 800 !important;
+}
+
+.swal2-html-container {
+    color: #a1a1aa !important;
+}
+
+.swal2-confirm {
+    background: linear-gradient(135deg, #c5a880 0%, #a2835b 100%) !important;
+    border-radius: 0.75rem !important;
+    font-weight: 700 !important;
+    border: none !important;
+}
+
+.swal2-cancel {
+    background-color: #27272a !important;
+    border-radius: 0.75rem !important;
+    color: #f4f4f6 !important;
+    border: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Rappasoft Datatable Premium Dark Skin overrides                            */
+/* -------------------------------------------------------------------------- */
+
+/* Target the table containers */
+.bg-white.rounded-md.shadow-sm, 
+.bg-white.rounded-lg.shadow-sm,
+div[class*="laravel-livewire-tables"] {
+    background-color: #121215 !important;
+    border-color: #222227 !important;
+}
+
+/* Base table element styling */
+table {
+    background-color: #121215 !important;
+    border-collapse: collapse !important;
+}
+
+/* Table header wrapper and columns */
+thead tr {
+    background-color: #1a1a1f !important;
+    border-bottom: 2px solid #222227 !important;
+}
+
+thead th {
+    color: #c5a880 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    border-bottom-width: 2px !important;
+    border-color: #222227 !important;
+    background-color: #1a1a1f !important;
+    padding: 1rem !important;
+}
+
+/* Table rows and individual cells */
+tbody tr {
+    background-color: #121215 !important;
+    border-bottom: 1px solid rgba(34, 34, 39, 0.6) !important;
+    transition: background-color 0.25s ease !important;
+}
+
+tbody tr:hover {
+    background-color: #1a1a1f !important;
+}
+
+tbody td {
+    color: #e4e4e7 !important;
+    border-color: #222227 !important;
+    font-weight: 500 !important;
+    padding: 1rem !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* DATATABLE SEARCH BOX & INPUTS (HIGH-CONTRAST BULLETPROOF SELECTORS)        */
+/* -------------------------------------------------------------------------- */
+input[type="search"],
+input[type="text"],
+input.form-control,
+input.form-input,
+select,
+.laravel-livewire-tables-search-box input,
+div[class*="laravel-livewire-tables"] input,
+div[class*="laravel-livewire-tables"] select {
+    background-color: #1a1a1f !important;
+    border: 1px solid #33333b !important;
+    color: #ffffff !important;
+    border-radius: 0.75rem !important;
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.55rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    font-weight: 600 !important;
+}
+
+/* Force placeholder to be bright gray/silver for maximum readability */
+input::placeholder,
+input[type="search"]::placeholder,
+input[type="text"]::placeholder,
+.laravel-livewire-tables-search-box input::placeholder {
+    color: #a1a1aa !important; /* Silver gray placeholder */
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+input[type="search"]:focus, 
+input[type="text"]:focus,
+input:focus,
+select:focus {
+    border-color: #c5a880 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2) !important;
+}
+
+/* Action dropdowns, buttons, search wrappers */
+.dropdown-menu, 
+[role="menu"] {
+    background-color: #121215 !important;
+    border: 1px solid #222227 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+[role="menu"] a, 
+[role="menu"] button {
+    color: #e4e4e7 !important;
+}
+
+[role="menu"] a:hover, 
+[role="menu"] button:hover {
+    background-color: #1a1a1f !important;
+    color: #c5a880 !important;
+}
+
+/* Buttons (e.g. Columns selection, filter buttons) */
+button[id^="column-select-"], 
+button[id^="filter-button-"],
+div[class*="laravel-livewire-tables"] button {
+    background-color: #1a1a1f !important;
+    border: 1px solid #33333b !important;
+    color: #c5a880 !important;
+    border-radius: 0.75rem !important;
+    font-weight: 700 !important;
+    padding: 0.55rem 1.1rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+button[id^="column-select-"]:hover, 
+button[id^="filter-button-"]:hover,
+div[class*="laravel-livewire-tables"] button:hover {
+    background-color: #c5a880 !important;
+    color: #000000 !important;
+    border-color: #c5a880 !important;
+}
+
+/* Pagination container and results label */
+nav[role="navigation"] {
+    background-color: transparent !important;
+    border-color: #222227 !important;
+    padding: 1rem 0 !important;
+}
+
+nav[role="navigation"] span, 
+nav[role="navigation"] a {
+    background-color: #1a1a1f !important;
+    border-color: #222227 !important;
+    color: #e4e4e7 !important;
+    border-radius: 0.5rem !important;
+    margin: 0 2px !important;
+}
+
+nav[role="navigation"] a:hover {
+    background-color: #c5a880 !important;
+    color: #000000 !important;
+}
+
+nav[role="navigation"] .active span {
+    background-color: #c5a880 !important;
+    color: #000000 !important;
+    border-color: #c5a880 !important;
+}
+
+.text-muted, 
+.text-gray-500,
+div[class*="laravel-livewire-tables"] span.text-gray-700 {
+    color: #a1a1aa !important;
+}

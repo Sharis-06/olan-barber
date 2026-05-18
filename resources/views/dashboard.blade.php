@@ -2,65 +2,63 @@
     @if(auth()->user()->hasRole('Cliente'))
         <div class="space-y-8">
             <!-- Tarjeta de Bienvenida -->
-            <div class="bg-gradient-to-r from-gray-800 to-black text-white rounded-2xl p-8 shadow-lg relative overflow-hidden">
-                <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-12 translate-y-12 select-none">
-                    <i class="fa-solid fa-scissors text-[200px]"></i>
+            <div class="bg-gradient-to-r from-[#18181b] to-[#0c0c0e] border border-[#222227] text-[#f4f4f6] rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute right-0 bottom-0 opacity-5 transform translate-x-12 translate-y-12 select-none pointer-events-none">
+                    <i class="fa-solid fa-scissors text-[200px] text-[#c5a880]"></i>
                 </div>
                 
                 <div class="relative z-10 max-w-lg space-y-3">
-                    <span class="bg-blue-600/30 text-blue-400 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-blue-500/20">
-                        Cliente de Olan Barber
+                    <span class="bg-[#c5a880]/15 text-[#c5a880] text-[10px] font-black uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full border border-[#c5a880]/20">
+                        Cliente Distinguido
                     </span>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">¡Hola, {{ auth()->user()->name }}!</h1>
-                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2 text-[#f4f4f6]">¡Hola, {{ auth()->user()->name }}!</h1>
+                    <p class="text-gray-400 text-sm sm:text-base leading-relaxed font-medium">
                         Bienvenido a tu panel de control personal. Aquí puedes ver tus próximas reservas de barbería y agendar nuevos servicios al instante.
                     </p>
-                    <div class="pt-2">
-                        <x-wire-button
-                            blue
+                    <div class="pt-3">
+                        <a
                             href="{{ route('client.booking') }}"
-                            class="shadow-md shadow-blue-800/30 font-bold transition hover:scale-105 border-none"
+                            class="inline-flex items-center gap-2 bg-gradient-to-r from-[#c5a880] to-[#a2835b] hover:from-[#d4b790] hover:to-[#b2936a] text-black font-extrabold px-6 py-3 rounded-xl transition duration-300 transform hover:scale-105 shadow-lg shadow-[#c5a880]/10 border-none cursor-pointer"
                         >
-                            <i class="fa-solid fa-plus mr-1"></i> Nueva Reserva
-                        </x-wire-button>
+                            <i class="fa-solid fa-plus text-sm"></i> Nueva Reserva
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Sección de Mis Reservas -->
             <div class="space-y-4">
-                <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-check text-blue-600"></i>
+                <h2 class="text-xl font-black text-[#f4f4f6] flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-[#c5a880]"></i>
                     Mis Próximas Citas
                 </h2>
 
                 @if($appointments->isEmpty())
-                    <div class="bg-white border border-gray-100 rounded-2xl p-12 text-center shadow-sm space-y-4">
-                        <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto text-gray-400 text-2xl border border-dashed border-gray-200">
+                    <div class="bg-[#121215] border border-[#222227] rounded-2xl p-12 text-center shadow-xl space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-[#1a1a1f] flex items-center justify-center mx-auto text-[#c5a880] text-2xl border border-dashed border-[#222227]">
                             <i class="fa-solid fa-calendar-xmark"></i>
                         </div>
                         <div class="max-w-md mx-auto space-y-1.5">
-                            <h3 class="font-bold text-gray-800 text-lg">No tienes citas agendadas</h3>
-                            <p class="text-gray-500 text-sm">
+                            <h3 class="font-bold text-[#f4f4f6] text-lg">No tienes citas agendadas</h3>
+                            <p class="text-gray-400 text-sm font-medium">
                                 ¿Necesitas un corte de pelo o arreglo de barba? ¡Elige a tu barbero preferido y reserva tu turno hoy mismo!
                             </p>
                         </div>
-                        <div class="pt-2">
-                            <x-wire-button
-                                outline
-                                blue
+                        <div class="pt-3">
+                            <a
                                 href="{{ route('client.booking') }}"
+                                class="inline-flex items-center gap-2 bg-[#1a1a1f] hover:bg-[#222227] text-[#c5a880] border border-[#c5a880] font-extrabold px-5 py-2.5 rounded-xl transition duration-300 cursor-pointer"
                             >
                                 Reservar ahora
-                            </x-wire-button>
+                            </a>
                         </div>
                     </div>
                 @else
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-[#121215] rounded-2xl shadow-2xl border border-[#222227] overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
-                                    <tr class="bg-gray-50/50 border-b border-gray-100 text-gray-400 text-xs font-bold uppercase">
+                                    <tr class="bg-[#1a1a1f] border-b border-[#222227] text-[#c5a880] text-xs font-black tracking-widest uppercase">
                                         <th class="p-4 pl-6">Servicio</th>
                                         <th class="p-4">Barbero</th>
                                         <th class="p-4">Fecha</th>
@@ -69,42 +67,42 @@
                                         <th class="p-4 pr-6 text-center">Estado</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-100 text-sm">
+                                <tbody class="divide-y divide-[#222227]/40 text-sm">
                                     @foreach($appointments as $appointment)
-                                        <tr class="hover:bg-gray-50/30 transition-colors">
-                                            <td class="p-4 pl-6 font-semibold text-gray-800">
+                                        <tr class="hover:bg-[#1a1a1f]/40 transition-colors">
+                                            <td class="p-4 pl-6 font-bold text-[#f4f4f6]">
                                                 {{ $appointment->service->nombre }}
                                             </td>
-                                            <td class="p-4 text-gray-600 font-semibold">
+                                            <td class="p-4 text-gray-300 font-semibold">
                                                 {{ $appointment->barber->name }}
                                             </td>
-                                            <td class="p-4 text-gray-600 font-medium">
+                                            <td class="p-4 text-gray-400 font-medium">
                                                 {{ \Carbon\Carbon::parse($appointment->fecha)->translatedFormat('d \d\e M, Y') }}
                                             </td>
-                                            <td class="p-4 text-gray-600 font-bold">
+                                            <td class="p-4 text-[#f4f4f6] font-extrabold">
                                                 {{ \Carbon\Carbon::parse($appointment->hora)->format('H:i') }}
                                             </td>
-                                            <td class="p-4 text-blue-600 font-bold">
+                                            <td class="p-4 text-[#c5a880] font-black">
                                                 ${{ number_format($appointment->service->precio, 2) }}
                                             </td>
                                             <td class="p-4 pr-6 text-center">
                                                 @if($appointment->estado === 'pendiente')
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">
-                                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-950/20 text-amber-400 border border-amber-900/30">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                                                         Pendiente
                                                     </span>
                                                 @elseif($appointment->estado === 'confirmada')
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200">
-                                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-950/20 text-indigo-400 border border-indigo-900/30">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
                                                         Confirmada
                                                     </span>
                                                 @elseif($appointment->estado === 'completada')
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/20 text-emerald-400 border border-emerald-900/30">
                                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                                         Completada
                                                     </span>
                                                 @else
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-600 border border-red-200">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-950/20 text-red-400 border border-red-900/30">
                                                         <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                                                         Cancelada
                                                     </span>
@@ -123,9 +121,18 @@
         <!-- Contenido por defecto para administradores en el dashboard -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                    <h1 class="text-2xl font-bold text-gray-800">Bienvenido al Panel de Administración</h1>
-                    <p class="text-gray-500 mt-2">Utiliza la barra lateral para gestionar los servicios, barberos, citas, roles y usuarios.</p>
+                <div class="bg-[#121215] overflow-hidden shadow-2xl border border-[#222227] rounded-2xl p-8 relative">
+                    <div class="absolute right-0 bottom-0 opacity-[0.03] transform translate-x-12 translate-y-12 select-none pointer-events-none">
+                        <i class="fa-solid fa-scissors text-[250px] text-[#c5a880]"></i>
+                    </div>
+
+                    <h1 class="text-3xl font-black text-[#f4f4f6] flex items-center gap-2">
+                        <i class="fa-solid fa-toolbox text-[#c5a880]"></i>
+                        Panel de Administración
+                    </h1>
+                    <p class="text-gray-400 mt-3 text-base leading-relaxed font-medium">
+                        Bienvenido de vuelta, {{ auth()->user()->name }}. Utiliza el menú lateral para gestionar eficientemente los servicios, barberos, citas agendadas, roles de acceso y perfiles de usuarios de **Olan Barbershop**.
+                    </p>
                 </div>
             </div>
         </div>

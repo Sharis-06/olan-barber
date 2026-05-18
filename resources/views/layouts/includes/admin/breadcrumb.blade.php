@@ -1,26 +1,26 @@
 {{-- Verificar si hay un elemento en el arreglo breadcrumbs --}}
 @if(isset($breadcrumbs) && count($breadcrumbs))
-    <nav class="mb-4 block">
-        <ol class="flex flex-wrap text-gray-500 text-sm mb-1">
+    <nav class="mb-4 block font-sans">
+        <ol class="flex flex-wrap text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">
             @foreach ($breadcrumbs as $item)
                 <li class="flex items-center">
                     @unless ($loop->first)
-                        <span class="px-2 text-gray-300">/</span>
+                        <span class="px-2 text-gray-600">/</span>
                     @endunless
                     
                     @isset($item['href'])
-                        <a href="{{$item['href']}}" class="hover:text-gray-700 transition-colors">
+                        <a href="{{$item['href']}}" class="text-gray-400 hover:text-[#c5a880] transition-colors">
                             {{ $item['name'] }}
                         </a> 
                     @else
-                        <span class="text-gray-400">{{$item['name']}}</span>
+                        <span class="text-[#c5a880]/90">{{$item['name']}}</span>
                     @endisset
                 </li>
             @endforeach
         </ol>
         
         @if (count($breadcrumbs) > 0)
-            <h1 class="text-2xl font-bold text-gray-900">
+            <h1 class="text-3xl font-black text-[#f4f4f6] tracking-tight">
                 {{ end($breadcrumbs)['name'] }}
             </h1>
         @endif

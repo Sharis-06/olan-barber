@@ -77,29 +77,35 @@ if ($user && $user->hasRole('Cliente')) {
 }
 @endphp
 
-<aside class="fixed top-0 left-0 z-40 w-64 h-screen">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-black text-white">
-        <a href="#" class="flex items-center mb-8">
-            <img src="{{asset('images/logo.jpeg')}}" class="h-6 me-3" alt="Olan Barber">
-            <span class="text-2xl font-bold">
-                OLAN 
-            </span>
-        </a>
+<aside class="fixed top-0 left-0 z-40 w-64 h-screen border-r border-[#222227] pt-14">
+    <div class="h-full px-4 py-6 overflow-y-auto bg-[#121215]">
+        <!-- Brand Title -->
+        <div class="px-2 py-4 mb-4 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl overflow-hidden border-2 border-[#c5a880]/30 shadow-md flex items-center justify-center bg-black flex-shrink-0">
+                <img src="{{asset('images/logo.jpeg')}}" class="w-full h-full object-cover" alt="Logo">
+            </div>
+            <div>
+                <h1 class="text-base font-black tracking-widest text-[#f4f4f6] leading-none uppercase">OLAN</h1>
+                <span class="text-[11px] font-bold text-[#c5a880] tracking-[0.25em] uppercase">BARBERSHOP</span>
+            </div>
+        </div>
 
-        <ul class="space-y-2 font-medium">
+        <ul class="space-y-1.5 font-medium">
             @foreach ($links as $link)
                 <li>
                     @isset($link['header'])
-                        <div class="px-2 py-3 text-xs uppercase text-gray-400 font-bold">
+                        <div class="px-3 py-3 text-[10px] uppercase text-[#c5a880]/70 font-black tracking-[0.2em] mt-4 border-b border-[#222227]/50 mb-1">
                             {{ $link['header'] }}
                         </div>
                     @else
                         <a
                             href="{{ $link['href'] }}"
-                            class="flex items-center p-3 rounded-lg transition hover:bg-gray-800
-                            {{ $link['active'] ? 'bg-gray-800' : '' }}"
+                            class="flex items-center p-3 rounded-xl transition duration-200 font-semibold text-sm cursor-pointer
+                            {{ $link['active'] 
+                                ? 'bg-gradient-to-r from-[#c5a880] to-[#a2835b] text-black shadow-lg shadow-[#c5a880]/10 font-bold' 
+                                : 'text-gray-400 hover:bg-[#1a1a1f] hover:text-[#c5a880]' }}"
                         >
-                            <i class="{{ $link['icon'] }} w-5 h-5"></i>
+                            <i class="{{ $link['icon'] }} w-5 h-5 flex items-center justify-center text-base"></i>
                             <span class="ml-3">
                                 {{ $link['name'] }}
                             </span>

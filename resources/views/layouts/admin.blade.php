@@ -1,7 +1,7 @@
 @props([
-    'title' => config ('app.name','Laravel'), //Titulo por defecto
-    'breadcrumbs' => [], //Arreglo vacio por defecto 
-        ])
+    'title' => config('app.name', 'Olan Barber'),
+    'breadcrumbs' => [],
+])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -9,11 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title }}</title>
+        <title>{{ $title }} | Olan Barber</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -30,33 +31,39 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased bg-gray-50">
+    <body class="font-sans antialiased bg-[#0b0b0c] text-[#f4f4f6]">
 
+        @include('layouts.includes.admin.navigation')
+        @include('layouts.includes.admin.sidebar')
 
-        @include ('layouts.includes.admin.navigation')
-        @include ('layouts.includes.admin.sidebar')
-
-
-        <div class="p-4 sm:ml-64 mt-14">
-            <div class="mb-6 flex items-start justify-between">
-                <div>
-                    @include('layouts.includes.admin.breadcrumb')
-                </div>
-                @isset($action)
-                    <div class="flex-shrink-0">
-                        {{$action}}
+        <div class="p-4 sm:ml-64 mt-14 min-h-screen flex flex-col justify-between">
+            <div>
+                <div class="mb-6 flex items-start justify-between">
+                    <div>
+                        @include('layouts.includes.admin.breadcrumb')
                     </div>
-                @endisset
+                    @isset($action)
+                        <div class="flex-shrink-0">
+                            {{$action}}
+                        </div>
+                    @endisset
+                </div>
+                
+                <div class="bg-[#121215] rounded-2xl shadow-xl border border-[#222227] overflow-hidden">
+                    {{$slot}}
+                </div>
             </div>
-            
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-                {{$slot}}
-            </div>
+
+            <!-- Footer -->
+            <footer class="mt-12 py-6 text-center text-xs text-gray-600 border-t border-[#1a1a1f]">
+                &copy; {{ date('Y') }} Olan Barber. Todos los derechos reservados.
+            </footer>
         </div>
 
         @stack('modals')
-        {{-- Mostrar sweetAlert cuando fucniones y si lo muestra --}}
-        @if (@session('swal'))
+        
+        {{-- SweetAlert session notifications --}}
+        @if (session('swal'))
             <script>
                 Swal.fire(@json(session('swal')));
             </script> 
@@ -65,32 +72,26 @@
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 
-
-        {{-- Confirmar eliminación --}}
+        {{-- Confirm delete helper --}}
         <script>
-         //Busca todos los elementos de una clase  
-        forms = document.querySelectorAll('.delete-form');
-        forms.forEach(form => {
-            // Revisa cualquier acción de envío
-            form.addEventListener('submit', function(e) {
-                // Previene el envio del formulario
-                e.preventDefault();
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: 'No podrás revertir eso',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar" 
-                }).then((result) => {
-                    if(result.isConfirmed){
-                        form.submit();
-                    }
+            forms = document.querySelectorAll('.delete-form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'No podrás revertir esta acción',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar' 
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
-        });
         </script>
     </body>
 </html>

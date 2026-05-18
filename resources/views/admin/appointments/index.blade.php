@@ -10,16 +10,13 @@
 ]">
 
     <x-slot name="action">
-
-        <x-wire-button
-            blue
-            href="{{ route('admin.appointments.create') }}"
+        <a
+            href="{{ route('client.booking') }}"
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-[#c5a880] to-[#a2835b] hover:from-[#d4b790] hover:to-[#b2936a] text-black font-extrabold px-5 py-2.5 rounded-xl transition duration-300 transform hover:scale-105 shadow-lg shadow-[#c5a880]/10 border-none cursor-pointer"
         >
-            <i class="fa-solid fa-plus"></i>
-
-            Nuevo
-        </x-wire-button>
-
+            <i class="fa-solid fa-plus text-sm"></i>
+            Nueva Cita
+        </a>
     </x-slot>
 
     @livewire('admin.datatables.appointment-table')
