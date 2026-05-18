@@ -49,6 +49,8 @@ Route::middleware(['auth'])
         // RUTA DE SERVCIOS 
         Route::resource('service', ServiceController::class);
         // RUTA DE CITAS
+        Route::get('appointments/{appointment}/pdf', [AppointmentController::class, 'downloadPdf'])
+            ->name('appointments.pdf');
         Route::resource('appointments', AppointmentController::class);
 
 
