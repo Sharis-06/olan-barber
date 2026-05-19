@@ -9,12 +9,15 @@
                 </svg>
             </button>
             
-            <!-- Hidden on desktop/tablets to avoid redundancy with the sidebar, visible on mobile -->
-            <a href="/" class="sm:hidden flex ms-2 md:me-24 items-center gap-2">
-                <div class="w-8 h-8 rounded-lg overflow-hidden border border-[#c5a880]/30 shadow-sm flex items-center justify-center bg-black">
-                    <img src="{{asset('images/logo.jpeg')}}" class="h-full object-cover" alt="Olan Barber" />
+            <!-- Always visible Brand Logo & Name in Navigation Bar -->
+            <a href="/" class="flex items-center gap-3 ms-2">
+                <div class="w-9 h-9 rounded-xl overflow-hidden border-2 border-[#c5a880]/30 shadow-md flex items-center justify-center bg-black flex-shrink-0">
+                    <img src="{{asset('images/logo.jpeg')}}" class="w-full h-full object-cover" alt="Logo">
                 </div>
-                <span class="self-center text-lg font-black tracking-widest text-[#f4f4f6] uppercase">OLAN <span class="text-[#c5a880]">BARBER</span></span>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-black tracking-widest text-[#f4f4f6] leading-none uppercase">OLAN</h1>
+                    <span class="text-[10px] font-bold text-[#c5a880] tracking-[0.2em] uppercase mt-0.5">BARBERSHOP</span>
+                </div>
             </a>
         </div>
             

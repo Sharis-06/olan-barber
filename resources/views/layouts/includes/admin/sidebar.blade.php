@@ -79,22 +79,11 @@ if ($user && $user->hasRole('Cliente')) {
 
 <aside class="fixed top-0 left-0 z-40 w-64 h-screen border-r border-[#222227] pt-14">
     <div class="h-full px-4 py-6 overflow-y-auto bg-[#121215]">
-        <!-- Brand Title -->
-        <div class="px-2 py-4 mb-4 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl overflow-hidden border-2 border-[#c5a880]/30 shadow-md flex items-center justify-center bg-black flex-shrink-0">
-                <img src="{{asset('images/logo.jpeg')}}" class="w-full h-full object-cover" alt="Logo">
-            </div>
-            <div>
-                <h1 class="text-base font-black tracking-widest text-[#f4f4f6] leading-none uppercase">OLAN</h1>
-                <span class="text-[11px] font-bold text-[#c5a880] tracking-[0.25em] uppercase">BARBERSHOP</span>
-            </div>
-        </div>
-
-        <ul class="space-y-1.5 font-medium">
+        <ul class="space-y-2.5 font-medium mt-6">
             @foreach ($links as $link)
                 <li>
                     @isset($link['header'])
-                        <div class="px-3 py-3 text-[10px] uppercase text-[#c5a880]/70 font-black tracking-[0.2em] mt-4 border-b border-[#222227]/50 mb-1">
+                        <div class="px-3 py-2 text-[10px] uppercase text-[#c5a880]/60 font-black tracking-[0.25em] mt-8 border-b border-[#222227]/30 mb-2">
                             {{ $link['header'] }}
                         </div>
                     @else
