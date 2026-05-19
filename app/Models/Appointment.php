@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\AppointmentNotification;
 
 class Appointment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'user_id',
         'barber_id',
