@@ -208,13 +208,13 @@
                     <!-- CLIENTE (SOLO PARA ADMIN) -->
                     @if($isAdmin)
                         <div class="space-y-1.5">
-                            <label class="text-sm font-bold text-[#c5a880] block">Paciente</label>
+                            <label class="text-sm font-bold text-[#c5a880] block">Cliente</label>
                             <x-wire-native-select
                                 wire:model.live="selectedClientId"
                                 required
                             >
                                 <option value="">
-                                    Seleccione un paciente...
+                                    Seleccione un cliente...
                                 </option>
                                 @foreach($clients as $client)
                                     <option value="{{ $client->id }}">

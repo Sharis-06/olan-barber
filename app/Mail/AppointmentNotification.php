@@ -11,6 +11,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Appointment;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AppointmentNotification extends Mailable
 {
@@ -46,13 +47,16 @@ class AppointmentNotification extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
     public function attachments(): array
     {
-        return [];
+        // Generar el PDF en memoria usando la vista del ticket
+        $pdf = Pdf::loadView('admin.appointments.pdf', ['appointment' => $this->appointment])
+            ->setPaper([0, 0, 480, 720]);
+
+        // Adjuntar el PDF directamente desde los datos en memoria
+        return [
+            Attachment::fromData(fn () => $pdf->output(), 'ticket_cita_OB-' . str_pad($this->appointment->id, 5, '0', STR_PAD_LEFT) . '.pdf')
+                ->withMime('application/pdf'),
+        ];
     }
 }
