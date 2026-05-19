@@ -1,59 +1,142 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ✂️ Olan BarberShop - Sistema de Gestión de Citas y Automatizaciones 💈
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bienvenido a **Olan BarberShop**, una plataforma moderna y robusta para la gestión y reservación de citas en línea desarrollada en **Laravel 11, Livewire y Alpine.js**. 
 
-## About Laravel
+Este sistema ha sido diseñado desde cero incorporando directrices profesionales de arquitectura de software y las nuevas **reglas de automatización proactiva** que demuestran la interacción automatizada del software con el usuario mediante la generación de documentos físicos, notificaciones en tiempo real y tareas programadas en segundo plano.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Diagrama Entidad-Relación (DER) de Base de Datos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+A continuación se muestra la estructura y relaciones de las tablas principales de la base de datos MySQL de la aplicación, modeladas de manera limpia y profesional:
 
-## Learning Laravel
+```mermaid
+erDiagram
+    USERS ||--o{ APPOINTMENTS : "agendan / atienden"
+    SERVICIOS ||--o{ APPOINTMENTS : "contiene"
+    
+    USERS {
+        bigint id PK
+        string name "Nombre Completo"
+        string email "Correo Electrónico"
+        string password "Contraseña Encriptada"
+        string id_number "Identificación"
+        string phone "Teléfono de Contacto"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    SERVICIOS {
+        bigint id PK
+        string nombre "Nombre del Servicio"
+        text descripcion "Detalle del Servicio"
+        decimal precio "Costo en Pesos"
+        integer duracion_minutos "Tiempo estimado"
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at "SoftDelete"
+    }
+    
+    APPOINTMENTS {
+        bigint id PK
+        bigint user_id FK "Relación Cliente (users)"
+        bigint barber_id FK "Relación Barbero (users)"
+        bigint service_id FK "Relación Servicio (servicios)"
+        date fecha "Fecha de la Cita"
+        time hora "Hora de la Cita"
+        string estado "pendiente | confirmada | completada | cancelada"
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at "SoftDelete"
+    }
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Características y Automatizaciones Implementadas
 
-## Laravel Sponsors
+### 1. Borrado Lógico de Citas (`SoftDeletes`)
+Para garantizar la integridad y auditoría de la información de la barbería, las citas nunca se eliminan físicamente de la base de datos.
+* **Implementación:** Activado el trait `SoftDeletes` en el modelo `Appointment` y migración física en MySQL.
+* **Beneficio:** Las citas borradas se ocultan automáticamente de las listas del panel de control de forma transparente, pero se mantienen disponibles en la base de datos para análisis históricos.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Generador de Tickets en PDF Físicos
+Permite a los administradores y clientes descargar un comprobante de cita físico optimizado para impresión térmica.
+* **Implementación:** Integrado `barryvdh/laravel-dompdf` con diseño prémium personalizado en tamaño de ticket de compra (`[0, 0, 480, 720]` puntos) e iniciales `OB-` de folio.
+* **Seguridad:** Middleware y Gated checks estrictos que impiden a un cliente descargar los comprobantes de otros clientes.
 
-### Premium Partners
+### 3. Notificación Proactiva por Correo Real (Gmail SMTP) con Ticket PDF Adjunto
+Cada vez que un cliente o administrador agenda una nueva cita, el sistema despacha automáticamente un correo electrónico responsivo con diseño de alta calidad (tonos dorado y negro), **adjuntando de forma automática el Ticket de Cita en formato PDF**.
+* **Implementación:** Escucha autónoma del evento Eloquent `created` directamente en la fase de booteo de `Appointment`.
+* **Proceso en Memoria (In-Memory):** El PDF se compila y se adjunta directamente al correo electrónico (`ticket_cita_OB-XXXXX.pdf`) utilizando la función `Attachment::fromData()`, **sin escribir un solo archivo temporal en el disco duro**, garantizando la máxima velocidad y optimización del almacenamiento del servidor.
+* **Resiliencia:** Incorpora un sistema de logs en `storage/logs/laravel.log` para capturar cualquier error de red sin interrumpir la experiencia de navegación del usuario.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 4. Tarea Programada de Recordatorio Diario (`Task Scheduling`)
+Para evitar inasistencias en la barbería, el sistema cuenta con una tarea en segundo plano que corre diariamente para recordar a los clientes su cita del día siguiente.
+* **Implementación:** Programación directa en `routes/console.php` a través de `Schedule::call` y biblioteca de fechas `Carbon`.
+* **Comando de Simulación para Evaluación:** `php artisan schedule:run` (ejecuta y envía recordatorios al instante de las citas programadas para el día de mañana).
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🛠️ Requisitos e Instalación
 
-## Code of Conduct
+Para ejecutar este proyecto en tu entorno de desarrollo local, sigue estos pasos:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Clonar el proyecto e instalar dependencias
+```bash
+composer install
+npm install
+```
 
-## Security Vulnerabilities
+### 2. Configurar las variables de entorno
+1. Duplica el archivo `.env.example` y nómbralo `.env`.
+2. Configura tu base de datos MySQL local:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=olan_barber
+   DB_USERNAME=tu_usuario
+   DB_PASSWORD=tu_contrasena
+   ```
+3. Configura tus credenciales reales de Gmail SMTP para probar los correos:
+   ```env
+   MAIL_MAILER=smtp
+   MAIL_HOST=smtp.gmail.com
+   MAIL_PORT=587
+   MAIL_USERNAME=tu_correo_gmail@gmail.com
+   MAIL_PASSWORD=tu_contrasena_de_16_caracteres_de_google
+   MAIL_FROM_ADDRESS="tu_correo_gmail@gmail.com"
+   MAIL_FROM_NAME="Olan BarberShop"
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Correr las migraciones y seeders
+Genera las tablas limpias de base de datos, los roles de usuario (Cliente, Barbero, Administrador) y los servicios de barbería por defecto:
+```bash
+php artisan migrate --seed
+```
 
-## License
+### 4. Compilar assets y arrancar servidores
+Abre dos terminales y ejecuta de forma paralela:
+```bash
+# Terminal 1: Servidor web PHP
+php artisan serve
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Terminal 2: Compilador de estilos Vite/Tailwind
+npm run dev
+```
+
+---
+
+## Cuentas de Acceso para Pruebas (Evaluadores)
+
+Para facilitar la evaluación de roles y permisos del sistema, los seeders configuran las siguientes cuentas por defecto con la contraseña `12345678`:
+
+| Rol | Correo de Acceso | Contraseña |
+| :--- | :--- | :--- |
+| **Administrador** | `test@test.com` o `sharispech@gmail.com` | `12345678` |
+| **Cliente de Prueba** | `cliente@test.com` | `12345678` |
+| **Barbero de Prueba** | `barber@test.com` | `12345678` |
+
+---
+**Desarrollado con ❤️ para Olan BarberShop - Proyecto de Automatizaciones Avanzadas.**
