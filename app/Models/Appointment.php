@@ -31,9 +31,18 @@ class Appointment extends Model
                 // Eager load relations for the email template
                 $appointment->load(['user', 'service', 'barber']);
 
-                // Send the confirmation email
-                Mail::to($appointment->user->email)
-                    ->send(new AppointmentNotification($appointment));
+                // 1. Send the confirmation email to the client
+                if ($appointment->user && $appointment->user->email) {
+                    Mail::to($appointment->user->email)
+                        ->send(new AppointmentNotification($appointment));
+                }
+
+                // 2. Send a copy to the assigned barber
+                if ($appointment->barber && $appointment->barber->email) {
+                    Mail::to($appointment->barber->email)
+                        ->send(new AppointmentNotification($appointment));
+                }
+
             } catch (\Exception $e) {
                 // Log error instead of throwing exception to prevent app from crashing when offline
                 Log::error("Error enviando correo de confirmación de cita #" . $appointment->id . ": " . $e->getMessage());

@@ -1,4 +1,4 @@
-# ✂️ Olan BarberShop - Sistema de Gestión de Citas y Automatizaciones 💈
+# ✂️ Olan BarberShop 💈
 
 Bienvenido a **Olan BarberShop**, una plataforma moderna y robusta para la gestión y reservación de citas en línea desarrollada en **Laravel 11, Livewire y Alpine.js**. 
 
@@ -87,8 +87,12 @@ Permite a los administradores y clientes descargar un comprobante de cita físic
 * **Implementación:** Integrado `barryvdh/laravel-dompdf` con diseño prémium personalizado en tamaño de ticket de compra (`[0, 0, 480, 720]` puntos) e iniciales `OB-` de folio.
 * **Seguridad:** Middleware y Gated checks estrictos que impiden a un cliente descargar los comprobantes de otros clientes.
 
-### 3. Notificación Proactiva por Correo Real (Gmail SMTP) con Ticket PDF Adjunto
-Cada vez que un cliente o administrador agenda una nueva cita, el sistema despacha automáticamente un correo electrónico responsivo con diseño de alta calidad (tonos dorado y negro), **adjuntando de forma automática el Ticket de Cita en formato PDF**.
+### 3. Notificación Proactiva Bidireccional por Correo Real (Gmail SMTP)
+Cada vez que se agenda una nueva cita, el sistema despacha automáticamente de forma simultánea:
+1. **Al Cliente:** Un correo confirmando su reservación.
+2. **Al Barbero Asignado:** Una copia notificándole que tiene un nuevo espacio agendado.
+
+Ambos correos cuentan con diseño responsivo de alta calidad y llevan **adjunto automáticamente el Ticket de Cita en formato PDF**.
 * **Implementación:** Escucha autónoma del evento Eloquent `created` directamente en la fase de booteo de `Appointment`.
 * **Proceso en Memoria (In-Memory):** El PDF se compila y se adjunta directamente al correo electrónico (`ticket_cita_OB-XXXXX.pdf`) utilizando la función `Attachment::fromData()`, **sin escribir un solo archivo temporal en el disco duro**, garantizando la máxima velocidad y optimización del almacenamiento del servidor.
 * **Resiliencia:** Incorpora un sistema de logs en `storage/logs/laravel.log` para capturar cualquier error de red sin interrumpir la experiencia de navegación del usuario.
