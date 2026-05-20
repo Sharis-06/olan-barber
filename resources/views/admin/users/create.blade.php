@@ -127,7 +127,10 @@
 
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end gap-3">
+                    <x-wire-button href="{{ route('admin.users.index') }}" secondary>
+                        Cancelar
+                    </x-wire-button>
                     <x-wire-button type="submit" blue>
                         Guardar
                     </x-wire-button>
