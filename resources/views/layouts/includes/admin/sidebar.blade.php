@@ -43,10 +43,10 @@ if ($user && $user->hasRole('Cliente')) {
         ],
 
         [
-            'name' => 'Barberos',
-            'icon' => 'fa-solid fa-users',
-            'href' => '#',
-            'active' => request()->routeIs('admin.barberos.*')
+            'name' => 'Horarios',
+            'icon' => 'fa-solid fa-clock',
+            'href' => route('admin.schedules.index'),
+            'active' => request()->routeIs('admin.schedules.*')
         ],
 
         [

@@ -21,10 +21,7 @@ class ClientBooking extends Component
     public $selectedDate = null;
     public $selectedHour = null;
 
-    // Predefined working hours for the shop
-    protected $workingHours = [
-        '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
-    ];
+
 
     public function mount()
     {
@@ -66,10 +63,42 @@ class ClientBooking extends Component
         $this->selectedBarberId = null;
     }
 
+    private function getWorkingHoursForBarber($barberId, $date)
+    {
+        if (!$date) return [];
+        
+        $dayOfWeek = Carbon::parse($date)->dayOfWeek;
+        
+        $schedule = \App\Models\BarberSchedule::where('barber_id', $barberId)
+            ->where('day_of_week', $dayOfWeek)
+            ->first();
+
+        if (!$schedule || !$schedule->is_working) {
+            return [];
+        }
+
+        $start = Carbon::parse($schedule->start_time);
+        $end = Carbon::parse($schedule->end_time);
+        $hours = [];
+
+        while ($start < $end) {
+            $hours[] = $start->format('H:i');
+            $start->addHour();
+        }
+
+        return $hours;
+    }
+
     // Direct dynamic method to fetch slot availability for a specific barber on selected date
     public function getAvailableHoursForBarber($barberId)
     {
         if (!$this->selectedDate) {
+            return [];
+        }
+
+        $workingHours = $this->getWorkingHoursForBarber($barberId, $this->selectedDate);
+
+        if (empty($workingHours)) {
             return [];
         }
 
@@ -84,7 +113,7 @@ class ClientBooking extends Component
             ->toArray();
 
         $available = [];
-        foreach ($this->workingHours as $hour) {
+        foreach ($workingHours as $hour) {
             $isPast = false;
             if ($this->selectedDate === Carbon::today()->format('Y-m-d')) {
                 $slotTime = Carbon::parse($this->selectedDate . ' ' . $hour);
@@ -106,18 +135,24 @@ class ClientBooking extends Component
     {
         $isAdmin = auth()->user()->hasAnyRole(['Administrador', 'Super Administrador', 'Recepcionista']);
 
+        $validHours = [];
+        if ($this->selectedBarberId && $this->selectedDate) {
+            $validHours = $this->getWorkingHoursForBarber($this->selectedBarberId, $this->selectedDate);
+        }
+
         $this->validate([
             'selectedClientId' => 'required|exists:users,id',
             'selectedServiceId' => 'required|exists:servicios,id',
             'selectedBarberId' => 'required|exists:users,id',
             'selectedDate' => 'required|date|after_or_equal:today',
-            'selectedHour' => 'required|in:' . implode(',', $this->workingHours),
+            'selectedHour' => 'required|in:' . implode(',', $validHours),
         ], [
             'selectedClientId.required' => 'Por favor, selecciona un cliente.',
             'selectedServiceId.required' => 'Por favor, selecciona un servicio.',
             'selectedBarberId.required' => 'Por favor, selecciona un barbero.',
             'selectedDate.required' => 'Por favor, selecciona una fecha.',
             'selectedHour.required' => 'Por favor, selecciona una hora para la cita.',
+            'selectedHour.in' => 'El horario seleccionado no es válido o el barbero no está disponible.',
         ]);
 
         // Double check conflict prevention

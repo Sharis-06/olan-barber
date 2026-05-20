@@ -66,4 +66,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Appointment::class, 'barber_id');
     }
+
+    // HORARIOS COMO BARBERO
+    public function schedules()
+    {
+        return $this->hasMany(BarberSchedule::class, 'barber_id');
+    }
 }
