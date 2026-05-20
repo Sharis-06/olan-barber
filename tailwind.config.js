@@ -6,6 +6,7 @@ import wireui from "./vendor/wireui/wireui/tailwind.config.js";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: "class",
     presets: [wireui],
 
     content: [

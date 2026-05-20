@@ -116,11 +116,6 @@ tbody td {
 /* -------------------------------------------------------------------------- */
 /* DATATABLE SEARCH BOX & INPUTS (HIGH-CONTRAST BULLETPROOF SELECTORS)        */
 /* -------------------------------------------------------------------------- */
-input[type="search"],
-input[type="text"],
-input.form-control,
-input.form-input,
-select,
 .laravel-livewire-tables-search-box input,
 div[class*="laravel-livewire-tables"] input,
 div[class*="laravel-livewire-tables"] select {
@@ -136,19 +131,15 @@ div[class*="laravel-livewire-tables"] select {
 }
 
 /* Force placeholder to be bright gray/silver for maximum readability */
-input::placeholder,
-input[type="search"]::placeholder,
-input[type="text"]::placeholder,
 .laravel-livewire-tables-search-box input::placeholder {
     color: #a1a1aa !important; /* Silver gray placeholder */
     opacity: 1 !important;
     font-weight: 500 !important;
 }
 
-input[type="search"]:focus, 
-input[type="text"]:focus,
-input:focus,
-select:focus {
+.laravel-livewire-tables-search-box input:focus,
+div[class*="laravel-livewire-tables"] input:focus,
+div[class*="laravel-livewire-tables"] select:focus {
     border-color: #c5a880 !important;
     outline: none !important;
     box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2) !important;
