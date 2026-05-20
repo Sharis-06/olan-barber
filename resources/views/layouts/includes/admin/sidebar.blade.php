@@ -27,53 +27,51 @@ if ($user && $user->hasRole('Cliente')) {
         [
             'name' => 'Dashboard',
             'icon' => 'fa-solid fa-gauge',
-            'href' => route('dashboard'),
-            'active' => request()->routeIs('dashboard')
+            'href' => route('admin.dashboard'),
+            'active' => request()->routeIs('admin.dashboard')
         ],
-
         [
-            'header' => 'Gestión'
+            'header' => 'Agenda'
         ],
-
-        [
-            'name' => 'Servicios',
-            'icon' => 'fa-solid fa-scissors',
-            'href' => route('admin.service.index'),
-            'active' => request()->routeIs('admin.service.*')
-        ],
-
-        [
-            'name' => 'Horarios',
-            'icon' => 'fa-solid fa-clock',
-            'href' => route('admin.schedules.index'),
-            'active' => request()->routeIs('admin.schedules.*')
-        ],
-
         [
             'name' => 'Citas',
             'icon' => 'fa-solid fa-calendar-check',
             'href' => route('admin.appointments.index'),
             'active' => request()->routeIs('admin.appointments.*')
         ],
-
         [
-            'header' => 'Administración'
-        ],
-
-        [
-            'name' => 'Roles',
-            'icon' => 'fa-solid fa-shield-halved',
-            'href' => route('admin.roles.index'),
-            'active' => request()->routeIs('admin.roles.*'),
-        ],
-
-        [
-            'name' => 'Usuarios',
-            'icon' => 'fa-solid fa-user',
-            'href' => route('admin.users.index'),
-            'active' => request()->routeIs('admin.users.*'),
+            'name' => 'Horarios',
+            'icon' => 'fa-solid fa-clock',
+            'href' => route('admin.schedules.index'),
+            'active' => request()->routeIs('admin.schedules.*')
         ],
     ];
+
+    if ($user->hasAnyRole(['Administrador', 'Super Administrador'])) {
+        $links = array_merge($links, [
+            [
+                'header' => 'Administración'
+            ],
+            [
+                'name' => 'Servicios',
+                'icon' => 'fa-solid fa-scissors',
+                'href' => route('admin.service.index'),
+                'active' => request()->routeIs('admin.service.*')
+            ],
+            [
+                'name' => 'Roles',
+                'icon' => 'fa-solid fa-shield-halved',
+                'href' => route('admin.roles.index'),
+                'active' => request()->routeIs('admin.roles.*'),
+            ],
+            [
+                'name' => 'Usuarios',
+                'icon' => 'fa-solid fa-user',
+                'href' => route('admin.users.index'),
+                'active' => request()->routeIs('admin.users.*'),
+            ],
+        ]);
+    }
 }
 @endphp
 

@@ -34,21 +34,16 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
-Route::middleware(['auth'])
+Route::middleware(['auth', 'role:Administrador|Super Administrador|Barbero'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
+        // --- RUTAS COMPARTIDAS (Admin y Barbero) ---
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
 
-        // RUTA DE ROLES
-        Route::resource('roles', RoleController::class);
-        //RUTA DE USUARIOS 
-        Route::resource('users', UserController::class);
-        // RUTA DE SERVCIOS 
-        Route::resource('service', ServiceController::class);
         // RUTA DE CITAS
         Route::get('appointments/{appointment}/pdf', [AppointmentController::class, 'downloadPdf'])
             ->name('appointments.pdf');
@@ -56,6 +51,16 @@ Route::middleware(['auth'])
 
         // RUTA DE HORARIOS DE BARBEROS
         Route::get('/schedules', BarberScheduleManager::class)->name('schedules.index');
+
+        // --- RUTAS EXCLUSIVAS DE ADMINISTRACIÓN ---
+        Route::middleware(['role:Administrador|Super Administrador'])->group(function () {
+            // RUTA DE ROLES
+            Route::resource('roles', RoleController::class);
+            // RUTA DE USUARIOS 
+            Route::resource('users', UserController::class);
+            // RUTA DE SERVCIOS 
+            Route::resource('service', ServiceController::class);
+        });
 
 });
 
