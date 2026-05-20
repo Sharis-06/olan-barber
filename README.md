@@ -13,6 +13,8 @@ A continuación se muestra la estructura y relaciones de las tablas principales 
 ```mermaid
 erDiagram
     USERS ||--o{ APPOINTMENTS : "agendan / atienden"
+    USERS ||--o{ BARBER_SCHEDULES : "configura turnos"
+    USERS }|--|{ ROLES : "posee (Spatie)"
     SERVICIOS ||--o{ APPOINTMENTS : "contiene"
     
     USERS {
@@ -22,6 +24,15 @@ erDiagram
         string password "Contraseña Encriptada"
         string id_number "Identificación"
         string phone "Teléfono de Contacto"
+        string address "Dirección Física"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROLES {
+        bigint id PK
+        string name "Administrador | Barbero | Cliente"
+        string guard_name "web"
         timestamp created_at
         timestamp updated_at
     }
@@ -35,6 +46,17 @@ erDiagram
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at "SoftDelete"
+    }
+
+    BARBER_SCHEDULES {
+        bigint id PK
+        bigint barber_id FK "Relación Barbero (users)"
+        integer day_of_week "0=Dom a 6=Sab"
+        time start_time "Hora de Entrada"
+        time end_time "Hora de Salida"
+        boolean is_working "Día Laboral"
+        timestamp created_at
+        timestamp updated_at
     }
     
     APPOINTMENTS {
@@ -78,7 +100,7 @@ Para evitar inasistencias en la barbería, el sistema cuenta con una tarea en se
 
 ---
 
-## 🛠️ Requisitos e Instalación
+## Requisitos e Instalación
 
 Para ejecutar este proyecto en tu entorno de desarrollo local, sigue estos pasos:
 
@@ -139,4 +161,3 @@ Para facilitar la evaluación de roles y permisos del sistema, los seeders confi
 | **Barbero de Prueba** | `barber@test.com` | `12345678` |
 
 ---
-**Desarrollado con ❤️ para Olan BarberShop - Proyecto de Automatizaciones Avanzadas.**
